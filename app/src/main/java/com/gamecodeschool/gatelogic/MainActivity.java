@@ -2,7 +2,7 @@
 //Built on top the "Subhunter" code by PacktPublishing
 //drawLines function was included because of "gustav boyd"
 //Professor Posnett provided the Logic for each gate
-
+ 
 package com.gamecodeschool.gatelogic;
 import android.app.Activity;
 import android.graphics.BitmapFactory;
