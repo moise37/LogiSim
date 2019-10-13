@@ -157,13 +157,13 @@ public class MainActivity extends Activity {
         if (whatWasTouched==4) {
             Switch tog = new Switch(blockSize*touchX1, blockSize*touchY1,switchOffGateFixed,switchOnGateFixed); //change to proper off state toggle switch
             tog.setState(false);
-            tog.draw(canvas);
+            tog.drawOff(canvas);
             tree.add(tog);
             draw();
         }
         if (whatWasTouched==5) {
             Out out = new Out(blockSize*touchX1, blockSize*touchY1,offGateFixed, onFixed);
-            out.draw(canvas);
+            out.drawOff(canvas);
             tree.add(out);
             draw();
         }

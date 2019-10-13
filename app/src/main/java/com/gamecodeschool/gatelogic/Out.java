@@ -17,6 +17,9 @@ class Out implements Node{
            // canvas.drawBitmap(off, horizontalTouched, verticalTouched, null);
         //}
     }
+    public void drawOff(Canvas canvas){
+        canvas.drawBitmap(off, horizontalTouched, verticalTouched, null);
+    }
     public Out(Node a) { this.setA(a);}
     public void setA(Node n) { this.a=n;}
     public boolean eval() {return a.eval();}
