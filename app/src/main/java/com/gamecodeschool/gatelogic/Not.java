@@ -7,7 +7,7 @@ class Not implements Node {
     Node n;
     float verticalTouched, horizontalTouched;
     Bitmap notGateFixed;
-    public Not(float verticalTouched, float horizontalTouched,Bitmap notGateFixed) {this.verticalTouched = verticalTouched; this.horizontalTouched =horizontalTouched; this.notGateFixed = notGateFixed; }
+    public Not(float horizontalTouched, float verticalTouched,Bitmap notGateFixed) {this.verticalTouched = verticalTouched; this.horizontalTouched =horizontalTouched; this.notGateFixed = notGateFixed; }
     public void draw(Canvas canvas){
         canvas.drawBitmap(notGateFixed,horizontalTouched,verticalTouched,null);
     }

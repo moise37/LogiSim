@@ -9,7 +9,7 @@ class And implements Node {
     public void draw(Canvas canvas){
         canvas.drawBitmap(andGateFixed,horizontalTouched,verticalTouched,null);
     }
-    public And(Node a, Node b) { this.setA(a); this.setB(b);}
+    public void And(Node a, Node b) { this.setA(a); this.setB(b);}
     public void setA(Node n) { this.a=n;}
     public void setB(Node n) { this.b=n;}
     public boolean eval() {

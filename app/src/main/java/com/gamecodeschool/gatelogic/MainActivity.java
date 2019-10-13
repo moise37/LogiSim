@@ -25,20 +25,19 @@ public class MainActivity extends Activity {
     int gridWidth = 40;
     int gridHeight;
 
-    static float horizontalTouched = -100;
-    static float verticalTouched = -100;
-    float touchX,touchY;
-    float touchX1,touchY1;
+    int horizontalTouched = -100;
+    int verticalTouched = -100;
+    int touchX= -100;int touchY = -100;
+    float touchX1=-100;float touchY1=-100;
     int whatWasTouched;
     int horizontalGap;
     int verticalGap;
     int distance;
-
     State state= new State();
     ArrayList<Node> tree = new ArrayList<>();
-    ArrayList<Node> tree1 = new ArrayList<>();
-    ArrayList<Node> tree2 = new ArrayList<>();
-    ArrayList<Node> tree3 = new ArrayList<>();
+    ArrayList<Node> tree1 = new ArrayList<>(); //create switches and out eval
+    ArrayList<Node> tree2 = new ArrayList<>();//create switches and out eval
+    ArrayList<Node> tree3 = new ArrayList<>();//create switches and out eval
 
     // Here are all the objects(instances)
     // of classes that we need to do some drawing
@@ -89,9 +88,9 @@ public class MainActivity extends Activity {
 
     //Button logic
     //below the vertical will lead to more conditionals of each class
-    void touch(float touchX, float touchY){
-        horizontalTouched = (int) touchX / blockSize;
-        verticalTouched = (int) touchY / blockSize;
+    void touch(int touchX, int touchY){
+        horizontalTouched = touchX;
+        verticalTouched = touchY;
         if(verticalTouched>=22)
         {
             if (horizontalTouched <4) {whatWasTouched =1;}
@@ -119,8 +118,8 @@ public class MainActivity extends Activity {
         Bitmap notGateFixed = Bitmap.createScaledBitmap(notGate,blockSize*3,blockSize*3,false);
         Bitmap on = BitmapFactory.decodeResource(getResources(),R.drawable.on);
         Bitmap onFixed = Bitmap.createScaledBitmap(on,blockSize*3,blockSize*3,false);
-
-        //broken pics have issuws
+        Switch a = new Switch();Switch b = new Switch();
+        a.setState(true); b.setState(true);//broken pics have issuws
 
         //Bitmap switchOffGate = BitmapFactory.decodeResource(getResources(),R.drawable.offswitch);
        // Bitmap switchOffGateFixed = Bitmap.createScaledBitmap(switchOffGate,blockSize*3,blockSize*3,false);
@@ -128,33 +127,38 @@ public class MainActivity extends Activity {
         //determined where the touch was for the respective class
         if (whatWasTouched==1)
         {
-            And and = new And(touchX1,touchY1,andGateFixed);
-            and.draw(canvas);
+            And and = new And(touchX1*blockSize,touchY1*blockSize,andGateFixed);
+
             tree.add(and);
+            and.draw(canvas);//tree.lastIndexOf();
+            and.And(a,b);
+            if (and.eval()){
+                //canvas.drawBitmap(onFixed,horizontalTouched,verticalTouched,null);
+            }
             draw();
         }
 
         if (whatWasTouched==2) {
-            Or or = new Or(touchX1,touchY1,orGateFixed);
+            Or or = new Or(touchX1*blockSize,blockSize*touchY1,orGateFixed);
             or.draw(canvas);
             tree.add(or);
             draw();
         }
         if (whatWasTouched==3) {
-            Not not = new Not(touchX1,touchY1,notGateFixed);
+            Not not = new Not(touchX1*blockSize,blockSize*touchY1,notGateFixed);
             not.draw(canvas);
             tree.add(not);
             draw();
         }
         if (whatWasTouched==4) {
-            Switch tog = new Switch(touchX1, touchY1,onFixed); //change to proper off state toggle switch
+            Switch tog = new Switch(blockSize*touchX1, blockSize*touchY1,onFixed); //change to proper off state toggle switch
             tog.setState(false);
             tog.draw(canvas);
             tree.add(tog);
             draw();
         }
         if (whatWasTouched==5) {
-            canvas.drawBitmap(offGateFixed,touchX1,touchY1,null);
+            canvas.drawBitmap(offGateFixed,blockSize*touchX1,blockSize*touchY1,null);
             Out out = new Out();
             tree.add(out);
             draw();
@@ -168,19 +172,22 @@ public class MainActivity extends Activity {
               // this may not work with the current implementation
                 // the current implementation is just alternating on a state of click for board or waiting for the action button
             //wire
+            state.toggleState();
+            state.toggleState();
         }
 
 
-        //hazy 4am thought: 11 should be controlling 8,9,10
-          // the logic should be inversed, tree = tree_
+        //11 should be controlling 8,9,10
             //a toggled save state should be implemented
                 //save press then the desired one to save to, toggle saveState
-        if(whatWasTouched==8){tree1 = tree;}
-        if (whatWasTouched==9){tree2 = tree;}
-        if (whatWasTouched==10){tree3 = tree;}
+        if(whatWasTouched==8){tree = tree1;} //hard coded circuit 1
+        if (whatWasTouched==9){tree = tree2;}//hard coded circuit 1
+        if (whatWasTouched==10){tree = tree3;}//hard coded circuit 1
         if (whatWasTouched==11){
+            //change the state of where the prev 3 buttons would change to the current one
             //confirm the save of the current tree into the 3 slots
         }
+        state.toggleState();
     }
     void draw() {
         setContentView(gameView);
@@ -200,29 +207,28 @@ public class MainActivity extends Activity {
     }
     /*user taps*/
     @Override
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        if (!state.getState()) {
-            if((motionEvent.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-                //get the current touch
-                touchX = motionEvent.getX();
-                touchY = motionEvent.getY();
-                touch(touchX, touchY);
-                draw();
-            }
-        }
-        else if(state.getState()){
+    public boolean onTouchEvent(MotionEvent motionEvent)
+    {
+        paint.setColor(Color.BLACK);
+        if(state.getState()){
             if((motionEvent.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
                 touchX1 = (int) motionEvent.getX() / blockSize;
                 touchY1 = (int) motionEvent.getY() / blockSize;
                 place();
-                state.toggleState();
                 draw();
             }
-        }
-        return true;
+        }else{
+            if((motionEvent.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                //get the current touch
+                touchX = (int)motionEvent.getX()/blockSize;
+                touchY = (int)motionEvent.getY()/blockSize;
+                touch(touchX, touchY);
+                draw();
+            }
+        }return true;
     }
     class State{
-        boolean state = true;
+        boolean state = false;
         boolean getState(){ return state;}
         void toggleState(){ state = !state;}
     }
