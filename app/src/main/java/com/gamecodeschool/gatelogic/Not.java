@@ -1,13 +1,17 @@
 package com.gamecodeschool.gatelogic;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+
 class Not implements Node {
     Node n;
-    int verticalTouched, horizontalTouched;
-    public Not() {
+    float verticalTouched, horizontalTouched;
+    Bitmap notGateFixed;
+    public Not(float verticalTouched, float horizontalTouched,Bitmap notGateFixed) {this.verticalTouched = verticalTouched; this.horizontalTouched =horizontalTouched; this.notGateFixed = notGateFixed; }
+    public void draw(Canvas canvas){
+        canvas.drawBitmap(notGateFixed,horizontalTouched,verticalTouched,null);
     }
-    public Not(Node n) {
-        this.setSource(n);
-    }
+    public Not(Node n) { this.setSource(n); }
     public void setSource(Node n) {
         this.n=n;
     }

@@ -120,9 +120,12 @@ public class MainActivity extends Activity {
         Bitmap on = BitmapFactory.decodeResource(getResources(),R.drawable.on);
         Bitmap onFixed = Bitmap.createScaledBitmap(on,blockSize*3,blockSize*3,false);
 
+        //broken pics have issuws
+
         //Bitmap switchOffGate = BitmapFactory.decodeResource(getResources(),R.drawable.offswitch);
        // Bitmap switchOffGateFixed = Bitmap.createScaledBitmap(switchOffGate,blockSize*3,blockSize*3,false);
 
+        //determined where the touch was for the respective class
         if (whatWasTouched==1)
         {
             And and = new And(touchX,touchY,andGateFixed);
@@ -132,19 +135,19 @@ public class MainActivity extends Activity {
         }
 
         if (whatWasTouched==2) {
-            Or or = new Or();
+            Or or = new Or(touchX,touchY,orGateFixed);
+            or.draw(canvas);
             tree.add(or);
-            canvas.drawBitmap(orGateFixed,touchX1,touchY1,null);
             draw();
         }
         if (whatWasTouched==3) {
-            Not not = new Not();
+            Not not = new Not(touchX,touchY,notGateFixed);
+            not.draw(canvas);
             tree.add(not);
-            canvas.drawBitmap(notGateFixed,touchX1,touchY1,null);
             draw();
         }
         if (whatWasTouched==4) {
-            Switch tog = new Switch(touchX, touchY,onFixed);
+            Switch tog = new Switch(touchX, touchY,onFixed); //change to proper off state toggle switch
             tog.setState(false);
             tog.draw(canvas);
             tree.add(tog);
@@ -158,10 +161,20 @@ public class MainActivity extends Activity {
         }
         if (whatWasTouched==6){
             tree.remove(tree.size()-1);    //deletes the last object of the one tree structure
+            draw();
         }
         if (whatWasTouched==7){
+            //click click click
+              // this may not work with the current implementation
+                // the current implementation is just alternating on a state of click for board or waiting for the action button
             //wire
         }
+        //hazy 4am thought: 11 should be controlling 8,9,10
+          // the logic should be inversed, tree = tree_
+            //a toggled save state should be implemented
+                //save press then the desired one to save to, toggle saveState
+
+        //
         if(whatWasTouched==8){tree1 = tree;}
         if (whatWasTouched==9){tree2 = tree;}
         if (whatWasTouched==10){tree3 = tree;}
@@ -194,6 +207,7 @@ public class MainActivity extends Activity {
                 touchX = motionEvent.getX();
                 touchY = motionEvent.getY();
                 touch(touchX, touchY);
+                draw();
             }
         }else if(state.getState()){
             if((motionEvent.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
@@ -201,6 +215,7 @@ public class MainActivity extends Activity {
                 touchY1 = (int) motionEvent.getY() / blockSize;
                 place();
                 state.toggleState();
+                draw();
             }
         }
         return true;

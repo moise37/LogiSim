@@ -1,7 +1,10 @@
 package com.gamecodeschool.gatelogic;
 
+import android.graphics.Bitmap;
+
 class Out implements Node{
-    int horizontalTouched,verticalTouched;
+    float horizontalTouched,verticalTouched;
+    Bitmap off,on;
     Node a;
     public Out(){}
     public Out(Node a) { this.setA(a);}
