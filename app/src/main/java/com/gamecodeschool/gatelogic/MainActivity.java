@@ -76,8 +76,8 @@ public class MainActivity extends Activity {
         paint.setTextSize(blockSize*2);
         if (tree.size()==0){
             canvas.drawText(
-                    "double tap A B or C",
-                    blockSize*24, blockSize*2f,
+                    "double tap A B C",
+                    blockSize*25, blockSize*2f,
                     paint);
         }
         canvas.drawRect(0,blockSize*22,blockSize*42,blockSize*35,paint);
