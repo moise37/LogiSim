@@ -74,6 +74,12 @@ public class MainActivity extends Activity {
         gameView.setImageBitmap(blankBitmap);
         paint.setColor(Color.BLACK);
         paint.setTextSize(blockSize*2);
+        if (tree.size()==0){
+            canvas.drawText(
+                    "double tap 1 2 or 3",
+                    blockSize*24, blockSize*2f,
+                    paint);
+        }
         canvas.drawRect(0,blockSize*22,blockSize*42,blockSize*35,paint);
         paint.setColor(Color.WHITE);
         canvas.drawText(
@@ -263,6 +269,8 @@ public class MainActivity extends Activity {
     public boolean onTouchEvent(MotionEvent motionEvent)
     {
         paint.setColor(Color.BLACK);
+
+
         if(state.getState()){
             if((motionEvent.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
                 touchX1 = (int) motionEvent.getX() / blockSize;
