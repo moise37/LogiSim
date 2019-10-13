@@ -116,13 +116,14 @@ public class MainActivity extends Activity {
         Bitmap offGateFixed = Bitmap.createScaledBitmap(off,blockSize*3,blockSize*3,false);
         Bitmap notGate = BitmapFactory.decodeResource(getResources(),R.drawable.not);
         Bitmap notGateFixed = Bitmap.createScaledBitmap(notGate,blockSize*3,blockSize*3,false);
+        Bitmap switchOffGate = BitmapFactory.decodeResource(getResources(),R.drawable.offswitch);
+        Bitmap switchOffGateFixed = Bitmap.createScaledBitmap(switchOffGate,blockSize*3,blockSize*3,false);
+        Bitmap switchOnGate = BitmapFactory.decodeResource(getResources(),R.drawable.onswitch);
+        Bitmap switchOnGateFixed = Bitmap.createScaledBitmap(switchOnGate,blockSize*3,blockSize*3,false);
         Bitmap on = BitmapFactory.decodeResource(getResources(),R.drawable.on);
         Bitmap onFixed = Bitmap.createScaledBitmap(on,blockSize*3,blockSize*3,false);
         Switch a = new Switch();Switch b = new Switch();
         a.setState(true); b.setState(true);//broken pics have issuws
-
-        //Bitmap switchOffGate = BitmapFactory.decodeResource(getResources(),R.drawable.offswitch);
-       // Bitmap switchOffGateFixed = Bitmap.createScaledBitmap(switchOffGate,blockSize*3,blockSize*3,false);
 
         //determined where the touch was for the respective class
         if (whatWasTouched==1)
@@ -172,8 +173,8 @@ public class MainActivity extends Activity {
               // this may not work with the current implementation
                 // the current implementation is just alternating on a state of click for board or waiting for the action button
             //wire
-            state.toggleState();
-            state.toggleState();
+            //state.toggleState();
+            //state.toggleState();
         }
 
 
