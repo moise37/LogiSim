@@ -76,14 +76,14 @@ public class MainActivity extends Activity {
         paint.setTextSize(blockSize*2);
         if (tree.size()==0){
             canvas.drawText(
-                    "double tap 1 2 or 3",
+                    "double tap A B or C",
                     blockSize*24, blockSize*2f,
                     paint);
         }
         canvas.drawRect(0,blockSize*22,blockSize*42,blockSize*35,paint);
         paint.setColor(Color.WHITE);
         canvas.drawText(
-                "And  "+"Or  "+"Not  "+ "Tog  "+ "Out  "+"DEL "+"Wire "+" 1  "+"2  "+"3  "+"SAVE",
+                "And  "+"Or  "+"Not  "+ "Tog  "+ "Out  "+"DEL "+"Wire "+" A  "+"B  "+"C  "+"SAVE",
                 0, blockSize * 24f,
                 paint);
         draw();
