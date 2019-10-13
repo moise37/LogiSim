@@ -2,6 +2,7 @@ package com.gamecodeschool.gatelogic;
 
 class Or implements Node {
     Node a,b;
+    int horizontalTouched,verticalTouched;
     public Or() {}
     public Or(Node a, Node b) { this.setA(a); this.setB(b);}
     public void setA(Node n) { this.a=n;}

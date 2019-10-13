@@ -2,7 +2,7 @@ package com.gamecodeschool.gatelogic;
 
 class Switch implements Node{
     boolean state;
-    int verticalTouched, horizontalTouched;
+    int horizontalTouched,verticalTouched;
     public Switch(boolean state) {
         this.state = state;
     }
