@@ -6,7 +6,6 @@
 package com.gamecodeschool.gatelogic;
 import android.app.Activity;
 import android.graphics.BitmapFactory;
-import android.graphics.Picture;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.graphics.Bitmap;
@@ -118,6 +117,11 @@ public class MainActivity extends Activity {
         Bitmap offGateFixed = Bitmap.createScaledBitmap(off,blockSize*3,blockSize*3,false);
         Bitmap notGate = BitmapFactory.decodeResource(getResources(),R.drawable.not);
         Bitmap notGateFixed = Bitmap.createScaledBitmap(notGate,blockSize*3,blockSize*3,false);
+        Bitmap on = BitmapFactory.decodeResource(getResources(),R.drawable.on);
+        Bitmap onFixed = Bitmap.createScaledBitmap(on,blockSize*3,blockSize*3,false);
+
+        //Bitmap switchOffGate = BitmapFactory.decodeResource(getResources(),R.drawable.offswitch);
+       // Bitmap switchOffGateFixed = Bitmap.createScaledBitmap(switchOffGate,blockSize*3,blockSize*3,false);
 
         if (whatWasTouched==1)
         {
@@ -140,8 +144,11 @@ public class MainActivity extends Activity {
             draw();
         }
         if (whatWasTouched==4) {
-            Switch tog = new Switch(false);
+            Switch tog = new Switch(touchX, touchY,onFixed);
+            tog.setState(false);
+            tog.draw(canvas);
             tree.add(tog);
+            draw();
         }
         if (whatWasTouched==5) {
             canvas.drawBitmap(offGateFixed,touchX1,touchY1,null);

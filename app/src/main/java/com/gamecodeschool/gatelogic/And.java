@@ -4,13 +4,8 @@ import android.graphics.Canvas;
 
 class And implements Node {
     float horizontalTouched,verticalTouched;
-    Bitmap andGateFixed;
-    Node a,b;
-    public  And(float horizontalTouched, float verticalTouched, Bitmap andGateFixed){
-        this.horizontalTouched = horizontalTouched;
-        this.verticalTouched = verticalTouched;
-        this.andGateFixed = andGateFixed;
-    }
+    Bitmap andGateFixed;Node a,b;
+    public  And(float horizontalTouched, float verticalTouched, Bitmap andGateFixed){this.horizontalTouched = horizontalTouched;this.verticalTouched = verticalTouched;this.andGateFixed = andGateFixed; }
     public void draw(Canvas canvas){
         canvas.drawBitmap(andGateFixed,horizontalTouched,verticalTouched,null);
     }
