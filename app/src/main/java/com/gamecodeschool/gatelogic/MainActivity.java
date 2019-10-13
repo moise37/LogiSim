@@ -25,19 +25,18 @@ public class MainActivity extends Activity {
     int gridWidth = 40;
     int gridHeight;
 
-    int horizontalTouched = -100;
-    int verticalTouched = -100;
-    int touchX= -100;int touchY = -100;
-    float touchX1=-100;float touchY1=-100;
+    int horizontalTouched, verticalTouched,touchX,touchY,touchX1,touchY1;
     int whatWasTouched;
     int horizontalGap;
     int verticalGap;
     int distance;
     State state= new State();
     ArrayList<Node> tree = new ArrayList<>();
-    ArrayList<Node> tree1 = new ArrayList<>(); //create switches and out eval
-    ArrayList<Node> tree2 = new ArrayList<>();//create switches and out eval
-    ArrayList<Node> tree3 = new ArrayList<>();//create switches and out eval
+    ArrayList<Node> tree1 = new ArrayList<>(tree); //create switches and out eval
+        //canvas.drawBitmap(onFixed,horizontalTouched,verticalTouched,null);
+
+    ArrayList<Node> tree2 = new ArrayList<>(tree);//create switches and out eval
+    ArrayList<Node> tree3 = new ArrayList<>(tree);//create switches and out eval
 
     // Here are all the objects(instances)
     // of classes that we need to do some drawing
@@ -62,8 +61,6 @@ public class MainActivity extends Activity {
         blockSize = numberHorizontalPixels / gridWidth;
         gridHeight = numberVerticalPixels / blockSize;
 
-
-
         // Initialize all the objects ready for drawing
         blankBitmap = Bitmap.createBitmap(numberHorizontalPixels,
                 numberVerticalPixels,
@@ -76,8 +73,8 @@ public class MainActivity extends Activity {
         canvas.drawColor(Color.WHITE);
         gameView.setImageBitmap(blankBitmap);
         paint.setColor(Color.BLACK);
-        canvas.drawRect(0,blockSize*22,blockSize*42,blockSize*35,paint);
         paint.setTextSize(blockSize*2);
+        canvas.drawRect(0,blockSize*22,blockSize*42,blockSize*35,paint);
         paint.setColor(Color.WHITE);
         canvas.drawText(
                 "And  "+"Or  "+"Not  "+ "Tog  "+ "Out  "+"DEL "+"Wire "+" 1  "+"2  "+"3  "+"SAVE",
@@ -152,15 +149,15 @@ public class MainActivity extends Activity {
             draw();
         }
         if (whatWasTouched==4) {
-            Switch tog = new Switch(blockSize*touchX1, blockSize*touchY1,onFixed); //change to proper off state toggle switch
+            Switch tog = new Switch(blockSize*touchX1, blockSize*touchY1,switchOffGateFixed,switchOnGateFixed); //change to proper off state toggle switch
             tog.setState(false);
             tog.draw(canvas);
             tree.add(tog);
             draw();
         }
         if (whatWasTouched==5) {
-            canvas.drawBitmap(offGateFixed,blockSize*touchX1,blockSize*touchY1,null);
-            Out out = new Out();
+            Out out = new Out(blockSize*touchX1, blockSize*touchY1,offGateFixed, onFixed);
+            out.draw(canvas);
             tree.add(out);
             draw();
         }
@@ -177,13 +174,68 @@ public class MainActivity extends Activity {
             //state.toggleState();
         }
 
+        //the saved arraylist are hardcoded to show logic functionality
 
-        //11 should be controlling 8,9,10
-            //a toggled save state should be implemented
-                //save press then the desired one to save to, toggle saveState
-        if(whatWasTouched==8){tree = tree1;} //hard coded circuit 1
-        if (whatWasTouched==9){tree = tree2;}//hard coded circuit 1
-        if (whatWasTouched==10){tree = tree3;}//hard coded circuit 1
+
+
+        if(whatWasTouched==8){
+            Switch tog = new Switch(blockSize*3, blockSize*12,switchOnGateFixed,switchOnGateFixed);
+            tog.setState(true);
+            tog.draw(canvas);
+            Switch tog1 = new Switch(blockSize*3, blockSize*17,switchOnGateFixed,switchOnGateFixed);
+            tog1.setState(true);
+            tog1.draw(canvas);
+            And and = new And(8*blockSize,15*blockSize,andGateFixed);
+            tree1.add(tog);
+            tree1.add(tog1);
+            tree1.add(and);
+            and.draw(canvas);//tree.lastIndexOf();
+            and.And(tog,tog1);
+            Out out = new Out(blockSize*12, blockSize*15,offGateFixed, onFixed);
+            out.setA(and);
+            if (out.eval()){
+                out.draw(canvas);
+            }
+            tree = tree1;
+            draw();
+        } //hard coded circuit 1
+        if (whatWasTouched==9){
+            Switch tog = new Switch(blockSize*14, blockSize*0,switchOnGateFixed,switchOffGateFixed);
+            tog.setState(true);
+            tog.draw(canvas);
+            Switch tog1 = new Switch(blockSize*14, blockSize*5,switchOnGateFixed,switchOffGateFixed);
+            tog1.setState(false);
+            tog1.drawOff(canvas);
+            Or or = new Or(18*blockSize,3*blockSize,orGateFixed);
+            tree2.add(tog);
+            tree2.add(tog1);
+            tree2.add(or);
+            or.draw(canvas);
+            or.Or(tog,tog1);
+            Out out = new Out(blockSize*22, blockSize*3,offGateFixed, onFixed);
+            out.setA(or);
+            if(out.eval()){
+                out.draw(canvas);
+            }
+            tree = tree2;
+            draw();
+        }
+        if (whatWasTouched==10){
+            Switch tog = new Switch(blockSize*19, blockSize*15,switchOnGateFixed,switchOffGateFixed);
+            tog.setState(false);
+            tog.draw(canvas);
+            Not not = new Not(24*blockSize,15*blockSize,notGateFixed);
+            tree3.add(tog);
+            tree3.add(not);
+            not.draw(canvas);
+            not.Not(tog);
+            Out out = new Out(blockSize*28, blockSize*15,offGateFixed, onFixed);
+            out.setA(not);
+            if (out.eval()){
+                out.draw(canvas);
+            }
+            tree = tree3;
+        }//hard coded circuit 1
         if (whatWasTouched==11){
             //change the state of where the prev 3 buttons would change to the current one
             //confirm the save of the current tree into the 3 slots

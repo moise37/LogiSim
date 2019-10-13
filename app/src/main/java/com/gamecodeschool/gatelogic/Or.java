@@ -11,7 +11,7 @@ class Or implements Node {
     public void draw(Canvas canvas){
         canvas.drawBitmap(orGateFixed,horizontalTouched,verticalTouched,null);
     }
-    public Or(Node a, Node b) { this.setA(a); this.setB(b);}
+    public void Or(Node a, Node b) { this.setA(a); this.setB(b);}
     public void setA(Node n) { this.a=n;}
     public void setB(Node n) { this.b=n;}
     public boolean eval() { return a.eval() | b.eval(); }

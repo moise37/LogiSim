@@ -11,7 +11,7 @@ class Not implements Node {
     public void draw(Canvas canvas){
         canvas.drawBitmap(notGateFixed,horizontalTouched,verticalTouched,null);
     }
-    public Not(Node n) { this.setSource(n); }
+    public void Not(Node n) { this.setSource(n); }
     public void setSource(Node n) {
         this.n=n;
     }
