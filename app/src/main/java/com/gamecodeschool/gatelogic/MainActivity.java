@@ -6,6 +6,7 @@
 package com.gamecodeschool.gatelogic;
 import android.app.Activity;
 import android.graphics.BitmapFactory;
+import android.graphics.Picture;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.graphics.Bitmap;
@@ -33,6 +34,7 @@ public class MainActivity extends Activity {
     int horizontalGap;
     int verticalGap;
     int distance;
+
     State state= new State();
     ArrayList<Node> tree = new ArrayList<>();
     ArrayList<Node> tree1 = new ArrayList<>();
@@ -80,13 +82,12 @@ public class MainActivity extends Activity {
         paint.setTextSize(blockSize*2);
         paint.setColor(Color.WHITE);
         canvas.drawText(
-                "+And " +"+Or "+"+Not "+ "+Switch "+ "+Out  "+"DEL "+"1  "+"2 "+"3 "+"SAVE",
+                "And  "+"Or  "+"Not  "+ "Tog  "+ "Out  "+"DEL "+"Wire "+" 1  "+"2  "+"3  "+"SAVE",
                 0, blockSize * 24f,
                 paint);
         draw();
-
-
     }
+
     //Button logic
     //below the vertical will lead to more conditionals of each class
     void touch(float touchX, float touchY){
@@ -95,66 +96,69 @@ public class MainActivity extends Activity {
         if(verticalTouched>=22)
         {
             if (horizontalTouched <4) {whatWasTouched =1;}
-            if (horizontalTouched > 4 && horizontalTouched < 8) {whatWasTouched = 2;}
-            if (horizontalTouched > 8 && horizontalTouched < 13) {whatWasTouched =3;}
-            if (horizontalTouched > 13 && horizontalTouched < 19) {whatWasTouched =4;}
-            if (horizontalTouched > 19 && horizontalTouched < 26) {whatWasTouched =5;}
-            if (horizontalTouched>26 && horizontalTouched<30){whatWasTouched =6;}
-            if(horizontalTouched==30 || horizontalTouched==31){whatWasTouched =7;}
-            if (horizontalTouched==32 || horizontalTouched ==33){whatWasTouched =8;}
-            if (horizontalTouched== 34 || horizontalTouched==35){whatWasTouched=9;}
-            if (horizontalTouched>35){whatWasTouched=10;}
+            if (horizontalTouched >= 4 && horizontalTouched <7) {whatWasTouched = 2;}
+            if (horizontalTouched >= 7 && horizontalTouched < 12) {whatWasTouched =3;}
+            if (horizontalTouched >= 12 && horizontalTouched < 15) {whatWasTouched =4;}
+            if (horizontalTouched >= 15 && horizontalTouched <= 19) {whatWasTouched =5;}
+            if (horizontalTouched >19 && horizontalTouched<= 23){whatWasTouched =6;}//del
+            if (horizontalTouched>23 && horizontalTouched<=28){whatWasTouched =7;}
+            if (horizontalTouched==29|| horizontalTouched==30){whatWasTouched =8;}
+            if (horizontalTouched==31|| horizontalTouched ==32){whatWasTouched =9;}
+            if (horizontalTouched==33|| horizontalTouched==34){whatWasTouched=10;}
+            if (horizontalTouched>34){whatWasTouched=11;}
         }
         state.toggleState();
     }
     void place(){
+        Bitmap andGate = BitmapFactory.decodeResource(getResources(),R.drawable.and);
+        Bitmap andGateFixed = Bitmap.createScaledBitmap(andGate,blockSize*3,blockSize*3,false);
+        Bitmap orGate = BitmapFactory.decodeResource(getResources(),R.drawable.orgate);
+        Bitmap orGateFixed = Bitmap.createScaledBitmap(orGate,blockSize*3,blockSize*3,false);
+        Bitmap off = BitmapFactory.decodeResource(getResources(),R.drawable.off);
+        Bitmap offGateFixed = Bitmap.createScaledBitmap(off,blockSize*3,blockSize*3,false);
+        Bitmap notGate = BitmapFactory.decodeResource(getResources(),R.drawable.not);
+        Bitmap notGateFixed = Bitmap.createScaledBitmap(notGate,blockSize*3,blockSize*3,false);
+
         if (whatWasTouched==1)
         {
-            And and = new And(touchX1,touchY1);
+            And and = new And(touchX,touchY,andGateFixed);
+            and.draw(canvas);
             tree.add(and);
-            canvas.drawBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.and),touchX1,touchY1,null);
             draw();
         }
 
         if (whatWasTouched==2) {
             Or or = new Or();
             tree.add(or);
-            canvas.drawBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.orgate),touchX1,touchY1,null);
+            canvas.drawBitmap(orGateFixed,touchX1,touchY1,null);
             draw();
         }
         if (whatWasTouched==3) {
-
             Not not = new Not();
             tree.add(not);
-            canvas.drawBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.not),touchX1,touchY1,null);
+            canvas.drawBitmap(notGateFixed,touchX1,touchY1,null);
             draw();
         }
         if (whatWasTouched==4) {
             Switch tog = new Switch(false);
             tree.add(tog);
-            draw();
         }
         if (whatWasTouched==5) {
-
-            canvas.drawBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.off),touchX1,touchY1,null);
+            canvas.drawBitmap(offGateFixed,touchX1,touchY1,null);
             Out out = new Out();
             tree.add(out);
             draw();
         }
         if (whatWasTouched==6){
             tree.remove(tree.size()-1);    //deletes the last object of the one tree structure
-            draw();
         }
-        if(whatWasTouched==7){
-            tree1 = tree;
+        if (whatWasTouched==7){
+            //wire
         }
-        if (whatWasTouched==8){//33 34
-            tree2 = tree;
-        }
-        if (whatWasTouched==9){
-            tree3 = tree;
-        }
-        if (whatWasTouched==10){
+        if(whatWasTouched==8){tree1 = tree;}
+        if (whatWasTouched==9){tree2 = tree;}
+        if (whatWasTouched==10){tree3 = tree;}
+        if (whatWasTouched==11){
             //confirm the save of the current tree into the 3 slots
         }
     }
@@ -186,7 +190,6 @@ public class MainActivity extends Activity {
             }
         }else if(state.getState()){
             if((motionEvent.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-
                 touchX1 = (int) motionEvent.getX() / blockSize;
                 touchY1 = (int) motionEvent.getY() / blockSize;
                 place();
@@ -196,7 +199,7 @@ public class MainActivity extends Activity {
         return true;
     }
     class State{
-        boolean state = false;
+        boolean state = true;
         boolean getState(){ return state;}
         void toggleState(){ state = !state;}
     }
