@@ -74,17 +74,11 @@ public class MainActivity extends Activity {
         gameView.setImageBitmap(blankBitmap);
         paint.setColor(Color.BLACK);
         paint.setTextSize(blockSize*2);
-        if (tree.size()==0){
-            canvas.drawText(
-                    "double tap A B C",
-                    blockSize*25, blockSize*2f,
-                    paint);
-        }
-        canvas.drawRect(0,blockSize*22,blockSize*42,blockSize*35,paint);
+        canvas.drawRect(0,blockSize*18,blockSize*42,blockSize*35,paint);
         paint.setColor(Color.WHITE);
         canvas.drawText(
                 "And  "+"Or  "+"Not  "+ "Tog  "+ "Out  "+"DEL "+"Wire "+" A  "+"B  "+"C  "+"SAVE",
-                0, blockSize * 24f,
+                0, blockSize * 20f,
                 paint);
         draw();
     }
@@ -94,7 +88,7 @@ public class MainActivity extends Activity {
     void touch(int touchX, int touchY){
         horizontalTouched = touchX;
         verticalTouched = touchY;
-        if(verticalTouched>=22)
+        if(verticalTouched>=18)
         {
             if (horizontalTouched <4) {whatWasTouched =1;}
             if (horizontalTouched >= 4 && horizontalTouched <7) {whatWasTouched = 2;}
@@ -125,6 +119,7 @@ public class MainActivity extends Activity {
         Bitmap switchOnGateFixed = Bitmap.createScaledBitmap(switchOnGate,blockSize*3,blockSize*3,false);
         Bitmap on = BitmapFactory.decodeResource(getResources(),R.drawable.on);
         Bitmap onFixed = Bitmap.createScaledBitmap(on,blockSize*3,blockSize*3,false);
+
         Switch a = new Switch();Switch b = new Switch();
         a.setState(true); b.setState(true);//broken pics have issuws
 
@@ -132,13 +127,10 @@ public class MainActivity extends Activity {
         if (whatWasTouched==1)
         {
             And and = new And(touchX1*blockSize,touchY1*blockSize,andGateFixed);
-
             tree.add(and);
             and.draw(canvas);//tree.lastIndexOf();
             and.And(a,b);
-            if (and.eval()){
-                //canvas.drawBitmap(onFixed,horizontalTouched,verticalTouched,null);
-            }
+            and.eval();
             draw();
         }
 
@@ -168,36 +160,36 @@ public class MainActivity extends Activity {
             draw();
         }
         if (whatWasTouched==6){
-            tree.remove(tree.size()-1);    //deletes the last object of the one tree structure
+            if (tree.size()>0) {
+                tree.remove(tree.size() - 1);    //deletes the last object of the one tree structure
+            }
             draw();
         }
-        if (whatWasTouched==7){
-            //click click click
-              // this may not work with the current implementation
-                // the current implementation is just alternating on a state of click for board or waiting for the action button
-            //wire
-            //state.toggleState();
-            //state.toggleState();
+
+        // this may not work with the current implementation
+        // the current implementation is just alternating on a state of click for board or waiting for the action button
+        if (whatWasTouched==7){ // wire
+            state.toggleState();
+
         }
 
+
+
         //the saved arraylist are hardcoded to show logic functionality
-
-
-
         if(whatWasTouched==8){
-            Switch tog = new Switch(blockSize*3, blockSize*12,switchOnGateFixed,switchOnGateFixed);
+            Switch tog = new Switch(blockSize*3, blockSize*10,switchOnGateFixed,switchOnGateFixed);
             tog.setState(true);
             tog.draw(canvas);
-            Switch tog1 = new Switch(blockSize*3, blockSize*17,switchOnGateFixed,switchOnGateFixed);
+            Switch tog1 = new Switch(blockSize*3, blockSize*14,switchOnGateFixed,switchOnGateFixed);
             tog1.setState(true);
             tog1.draw(canvas);
-            And and = new And(8*blockSize,15*blockSize,andGateFixed);
+            And and = new And(8*blockSize,12*blockSize,andGateFixed);
             tree1.add(tog);
             tree1.add(tog1);
             tree1.add(and);
             and.draw(canvas);//tree.lastIndexOf();
             and.And(tog,tog1);
-            Out out = new Out(blockSize*12, blockSize*15,offGateFixed, onFixed);
+            Out out = new Out(blockSize*12, blockSize*12,offGateFixed, onFixed);
             out.setA(and);
             if (out.eval()){
                 out.draw(canvas);

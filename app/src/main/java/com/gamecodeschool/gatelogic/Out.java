@@ -11,11 +11,7 @@ class Out implements Node{
         this.horizontalTouched = horizontalTouched;this.verticalTouched = verticalTouched;this.off = off;this.on = on;
     }
     public void draw(Canvas canvas){
-        //if (eval()){
             canvas.drawBitmap(on, horizontalTouched, verticalTouched, null);
-        //}else {
-           // canvas.drawBitmap(off, horizontalTouched, verticalTouched, null);
-        //}
     }
     public void drawOff(Canvas canvas){
         canvas.drawBitmap(off, horizontalTouched, verticalTouched, null);

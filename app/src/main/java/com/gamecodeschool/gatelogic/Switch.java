@@ -1,7 +1,6 @@
 package com.gamecodeschool.gatelogic;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 class Switch implements Node{
